@@ -478,10 +478,10 @@ TextHighlighter.prototype.doHighlight = function (keepRange) {
         normalizedHighlights = this.normalizeHighlights(createdHighlights);
 
         this.options.onAfterHighlight(range, normalizedHighlights, timestamp);
-    }
-
-    if (!keepRange) {
-        dom(this.el).removeAllRanges();
+        
+        if (!keepRange) {
+            dom(this.el).removeAllRanges();
+        }
     }
 };
 
