@@ -1,6 +1,6 @@
 {
-  "name": "texthighlighter",
-  "version": "1.2.3",
+  "name": "@mhe-engrade/texthighlighter",
+  "version": "1.2.4",
   "description": "TextHighlighter",
   "dependencies": {},
   "devDependencies": {
@@ -12,8 +12,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/guidupuy/texthighlighter"
+    "url": "git+https://github.mheducation.com/MHEducation/texthighlighter.git"
   },
-  "author": "mirz <mirz.hq@gmail.com>",
-  "license": "MIT"
+  "author": "Kevin Sar <kevin.sar@mheducation.com>",
+  "license": "MIT",
+  "homepage": "https://github.mheducation.com/MHEducation/texthighlighter"
 }
