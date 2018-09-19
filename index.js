@@ -395,13 +395,13 @@ var dom = function (el) {
 };
 
 function bindEvents(el, scope) {
-    el.addEventListener('mouseup', scope.highlightHandler.bind(scope));
-    el.addEventListener('touchend', scope.highlightHandler.bind(scope));
+    document.addEventListener('mouseup', scope.highlightHandler.bind(scope));
+    document.addEventListener('touchstart', scope.highlightHandler.bind(scope));
 }
 
 function unbindEvents(el, scope) {
-    el.removeEventListener('mouseup', scope.highlightHandler.bind(scope));
-    el.removeEventListener('touchend', scope.highlightHandler.bind(scope));
+    document.removeEventListener('mouseup', scope.highlightHandler.bind(scope));
+    document.removeEventListener('touchstart', scope.highlightHandler.bind(scope));
 }
 
 /**
@@ -434,7 +434,6 @@ function TextHighlighter(element, options) {
         onBeforeHighlight: function () { return true; },
         onAfterHighlight: function () { }
     });
-    this.touchRange;
 
     dom(this.el).addClass(this.options.contextClass);
     bindEvents(this.el, this);
@@ -450,15 +449,8 @@ TextHighlighter.prototype.destroy = function () {
     dom(this.el).removeClass(this.options.contextClass);
 };
 
-TextHighlighter.prototype.highlightHandler = function () {
-    if (e.type === "touchend") {
-        if (window.getSelection().toString() !== '') {
-            this.touchRange = dom(this.el).getRange();
-        } else {
-            this.doHighlight(false, this.touchRange);
-            this.touchRange = undefined;
-        }
-    } else {
+TextHighlighter.prototype.highlightHandler = function (e) {
+    if (window.getSelection().toString() !== '') {
         this.doHighlight();
     }
 };
@@ -468,9 +460,9 @@ TextHighlighter.prototype.highlightHandler = function () {
  * @param {boolean} keepRange - Don't remove range after highlighting. Default: false.
  * @memberof TextHighlighter
  */
-TextHighlighter.prototype.doHighlight = function (keepRange, defaultRange) {
-    var range = defaultRange || dom(this.el).getRange();
-    var wrapper,
+TextHighlighter.prototype.doHighlight = function (keepRange) {
+    var range = dom(this.el).getRange(),
+        wrapper,
         createdHighlights,
         normalizedHighlights,
         timestamp;
