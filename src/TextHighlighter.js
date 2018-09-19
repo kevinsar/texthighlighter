@@ -437,6 +437,8 @@
 
         dom(this.el).addClass(this.options.contextClass);
         bindEvents(this.el, this);
+        
+        this.touchRange;
     }
 
     /**
@@ -449,18 +451,27 @@
         dom(this.el).removeClass(this.options.contextClass);
     };
 
-    TextHighlighter.prototype.highlightHandler = function () {
-        this.doHighlight();
+    TextHighlighter.prototype.highlightHandler = function (e) {
+        if (e.type === "touchend") {
+            if (window.getSelection().toString() !== '') {
+                this.touchRange = dom(this.el).getRange();
+            } else {
+                this.doHighlight(false, this.touchRange);
+                this.touchRange = undefined;
+            }
+        } else {
+            this.doHighlight();
+        }
     };
-
+    
     /**
      * Highlights current range.
      * @param {boolean} keepRange - Don't remove range after highlighting. Default: false.
      * @memberof TextHighlighter
      */
-    TextHighlighter.prototype.doHighlight = function (keepRange) {
-        var range = dom(this.el).getRange(),
-            wrapper,
+    TextHighlighter.prototype.doHighlight = function (keepRange, defaultRange) {
+        var range = defaultRange || dom(this.el).getRange();
+        var wrapper,
             createdHighlights,
             normalizedHighlights,
             timestamp;
