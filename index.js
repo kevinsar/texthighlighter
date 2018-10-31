@@ -25,7 +25,7 @@ var
      */
     IGNORE_TAGS = [
         'SCRIPT', 'STYLE', 'SELECT', 'OPTION', 'BUTTON', 'OBJECT', 'APPLET', 'VIDEO', 'AUDIO', 'CANVAS', 'EMBED',
-        'PARAM', 'METER', 'PROGRESS'
+        'PARAM', 'METER', 'PROGRESS', 'INPUT'
     ];
 
 /**
@@ -533,7 +533,7 @@ TextHighlighter.prototype.highlightRange = function (range, wrapper) {
             done = true;
         }
 
-        if (node.tagName && IGNORE_TAGS.indexOf(node.tagName) > -1) {
+        if (node && node.tagName && IGNORE_TAGS.indexOf(node.tagName) > -1) {
 
             if (endContainer.parentNode === node) {
                 done = true;
@@ -542,7 +542,7 @@ TextHighlighter.prototype.highlightRange = function (range, wrapper) {
         }
         if (goDeeper && node.hasChildNodes()) {
             node = node.firstChild;
-        } else if (node.nextSibling) {
+        } else if (node && node.nextSibling) {
             node = node.nextSibling;
             goDeeper = true;
         } else {
@@ -606,13 +606,13 @@ TextHighlighter.prototype.flattenNestedHighlights = function (highlights) {
 
                 if (!haveSameColor(parent, hl)) {
 
-                    if (!hl.nextSibling) {
-                        dom(hl).insertBefore(parentNext || parent);
+                    if (!hl.nextSibling && parentNext) {
+                        dom(hl).insertBefore(parentNext);
                         again = true;
                     }
 
-                    if (!hl.previousSibling) {
-                        dom(hl).insertAfter(parentPrev || parent);
+                    if (!hl.previousSibling && parentPrev) {
+                        dom(hl).insertAfter(parentPrev);
                         again = true;
                     }
 
