@@ -1,6 +1,6 @@
 {
   "name": "@mhe-engrade/texthighlighter",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "TextHighlighter",
   "dependencies": {},
   "devDependencies": {
